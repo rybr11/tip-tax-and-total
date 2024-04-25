@@ -1,0 +1,64 @@
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+
+/**
+ * JavaFX App
+ */
+public class TipTaxandTotal extends Application {
+
+    @Override
+    public void start(Stage stage) {
+        //title of the window
+        stage.setTitle("Tip, Tax, and Total");
+        
+        //creating the controls
+        Label menuLabel = new Label("Charge of food and drink:");
+        TextField menuField = new TextField();
+        Label tipLabel = new Label("Tip: $0"); //display $0 until calc button action gives results
+        Label taxLabel = new Label("Tax: $0");
+        Label totalLabel = new Label("Total: $0");
+        Button calcButton = new Button("Calculate");
+        
+        
+        //putting the controls in the vbox and their order
+        VBox vbox = new VBox(10, menuLabel, menuField, 
+                tipLabel, taxLabel, totalLabel, calcButton);
+        //center align and padding for vbox
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setPadding(new Insets(10));
+
+
+        //event handler for the calc button
+        calcButton.setOnAction(e -> {
+                //calc for the result
+                double menuCharge = Double.parseDouble(menuField.getText());
+                double tip = menuCharge * 0.18;
+                double tax = menuCharge * 0.07;
+                double total = menuCharge + tip + tax;
+
+                tipLabel.setText(String.format("Tip: $%.2f", tip));
+                taxLabel.setText(String.format("Tax: $%.2f", tax));
+                totalLabel.setText(String.format("Total: $%.2f", total));
+                });
+
+        //vbox in the root node. i threw in sizing because it was quite small
+        Scene scene = new Scene(vbox, 250,200);
+        //setting scene to the stage
+        stage.setScene(scene);
+        //showing the window
+        stage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+}
